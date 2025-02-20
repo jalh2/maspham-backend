@@ -25,18 +25,31 @@ exports.getTire = async (req, res) => {
 
 // Create a new tire
 exports.createTire = async (req, res) => {
-    const tire = new Tire({
-        name: req.body.name,
-        size: req.body.size,
-        currentQuantity: req.body.quantity || 0,
-        quantityHistory: [{
-            quantity: req.body.quantity || 0,
-            date: new Date(),
-            type: 'initial'
-        }]
-    });
-
     try {
+        // Check for existing tire with same name and size
+        const existingTire = await Tire.findOne({
+            name: req.body.name,
+            size: req.body.size
+        });
+
+        if (existingTire) {
+            return res.status(400).json({
+                message: 'A tire with this name and size already exists',
+                existingTire
+            });
+        }
+
+        const tire = new Tire({
+            name: req.body.name,
+            size: req.body.size,
+            currentQuantity: req.body.quantity || 0,
+            quantityHistory: [{
+                quantity: req.body.quantity || 0,
+                date: new Date(),
+                type: 'initial'
+            }]
+        });
+
         const newTire = await tire.save();
         res.status(201).json(newTire);
     } catch (error) {
