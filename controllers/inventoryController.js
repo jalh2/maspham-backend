@@ -42,6 +42,8 @@ exports.createTire = async (req, res) => {
         const tire = new Tire({
             name: req.body.name,
             size: req.body.size,
+            price: req.body.price,
+            currency: req.body.currency || 'USD',
             currentQuantity: req.body.quantity || 0,
             quantityHistory: [{
                 quantity: req.body.quantity || 0,
@@ -99,11 +101,10 @@ exports.updateQuantity = async (req, res) => {
 // Delete a tire
 exports.deleteTire = async (req, res) => {
     try {
-        const tire = await Tire.findById(req.params.id);
-        if (!tire) {
+        const result = await Tire.findByIdAndDelete(req.params.id);
+        if (!result) {
             return res.status(404).json({ message: 'Tire not found' });
         }
-        await tire.remove();
         res.json({ message: 'Tire deleted' });
     } catch (error) {
         res.status(500).json({ message: error.message });

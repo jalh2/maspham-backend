@@ -25,6 +25,17 @@ const tireSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    price: {
+        type: Number,
+        required: true,
+        min: 0
+    },
+    currency: {
+        type: String,
+        required: true,
+        enum: ['USD', 'LRD'],
+        default: 'USD'
+    },
     currentQuantity: {
         type: Number,
         required: true,

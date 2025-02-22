@@ -29,10 +29,12 @@ connection.once('open', () => {
 const inventoryRoutes = require('./routes/inventoryRoutes');
 const authRoutes = require('./routes/auth');
 const sizeRoutes = require('./routes/sizes');
+const userRoutes = require('./routes/userRoutes');
 
 app.use('/api/inventory', inventoryRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/sizes', sizeRoutes);
+app.use('/api/users', userRoutes);
 
 app.listen(port, () => {
     console.log(`Server is running on port: ${port}`);
