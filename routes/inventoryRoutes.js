@@ -14,6 +14,9 @@ router.post('/', inventoryController.createTire);
 // Update tire quantity
 router.patch('/:id/quantity', inventoryController.updateQuantity);
 
+// Update tire price
+router.patch('/:id/price', inventoryController.updatePrice);
+
 // Delete a tire
 router.delete('/:id', inventoryController.deleteTire);
 

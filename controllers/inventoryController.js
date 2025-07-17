@@ -98,6 +98,34 @@ exports.updateQuantity = async (req, res) => {
     }
 };
 
+// Update tire price
+exports.updatePrice = async (req, res) => {
+    try {
+        const tire = await Tire.findById(req.params.id);
+        if (!tire) {
+            return res.status(404).json({ message: 'Tire not found' });
+        }
+
+        const { price } = req.body;
+
+        if (price === undefined || price === null) {
+            return res.status(400).json({ message: 'Price is required' });
+        }
+
+        if (typeof price !== 'number' || price < 0) {
+            return res.status(400).json({ message: 'Price must be a non-negative number' });
+        }
+
+        tire.price = price;
+
+        const updatedTire = await tire.save();
+        res.json(updatedTire);
+    } catch (error) {
+        console.error('Error updating tire price:', error);
+        res.status(400).json({ message: error.message });
+    }
+};
+
 // Delete a tire
 exports.deleteTire = async (req, res) => {
     try {
